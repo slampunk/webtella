@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+    <link rel="stylesheet" href="css/site.css" />
+    <title>Webtella</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+</head>
+<body>
+    <dialog id="setup">
+        <form method="dialog">
+            <h1>Initial setup</h1>
+            <div class="dialog__body">
+                <p>Let the rest of the users know who you are</p>
+                <input name="username" placeholder="Username" autocomplete="off" required />
+                <ul class="directory-setup"></ul>
+                <button type="button" id="setupDirectory" class="directory-chooser">Add folder</button>
+            </div>
+            <div class="dialog__actions">
+                <button type="reset">Cancel</button>
+                <button type="submit" class="success">Complete setup</button>
+            </div>
+        </form>
+    </dialog>
+    <input type="radio" name="view" class="hidden" id="local" value="local" checked />
+    <input type="radio" name="view" class="hidden" id="network" value="network" />
+    <input type="radio" name="view" class="hidden" id="transfers" value="transfers" />
+    <header class="flex align-center">
+        <label for="local">Shared folders</label>
+        <label for="network">Network</label>
+        <label for="transfers">Transfers</label>
+        <button id="directoryChooser" class="directory-chooser">Add folder</button>
+    </header>
+    <main>
+        <div class="wrapper flex">
+            <div class="view directories" id="local-view"></div>
+            <div class="view flex space-between align-top network" id="network-view">
+                <ul class="peers"></ul>
+                <div class="peer-directories" id="remote-directories"></div>
+            </div>
+            <div class="view" id="transfers-view">
+                <ul class="transfers"></ul>
+            </div>
+        </div>
+    </main>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,651 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    min-height: 100%;
+    font-family: Oxygen, Ubuntu, Roboto, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
+}
+
+body {
+    background: #282A2D;
+    padding: 2rem;
+}
+
+header {
+    border-bottom: 1px #f4f4f4 solid;
+    padding: 0 1rem;
+}
+
+header label {
+    margin-right: 2rem;
+    padding: 0 1rem;
+    border: 1px solid white;
+    border-bottom: none;
+    line-height: 3rem;
+    transition: color 0.25s, background 0.25s;
+}
+
+body > input:nth-of-type(1):checked ~ header label:nth-of-type(1),
+body > input:nth-of-type(2):checked ~ header label:nth-of-type(2),
+body > input:nth-of-type(3):checked ~ header label:nth-of-type(3) {
+    background: white;
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.align-bottom {
+    align-items: flex-end;
+}
+
+.align-top {
+    align-items: flex-start;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+
+a, button, label {
+    cursor: pointer;
+}
+
+.directory-chooser {
+    border: none;
+    font-size: 1rem;
+    background: #64B359;
+    color: white;
+    padding: 0 1rem 0 3rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-radius: 1.25rem;
+    font-size: 1rem;
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s, visibility 0s;
+    align-self: flex-end;
+    margin: 0 0 0.5rem auto;
+}
+
+body > input:nth-of-type(1):not(:checked) ~ header button {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0s 0.25s;
+    align-self: flex-end;
+}
+
+.directory-chooser::before {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    content: '';
+}
+
+.directory-chooser::after {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.625rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background: linear-gradient(transparent 0%, transparent calc(50% - 3px), white calc(50% - 2px), white calc(50% + 2px), transparent calc(50% + 3px)),
+                linear-gradient(90deg, transparent 0%, transparent calc(50% - 3px), white calc(50% - 2px), white calc(50% + 2px), transparent calc(50% + 3px));
+    content: '';
+}
+
+.directory {
+    margin: 0 0 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    min-height: 6rem;
+    max-height: 6rem;
+    overflow: hidden;
+    transition: max-height 0.25s;
+    position: relative;
+}
+
+.directory:nth-of-type(even) {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.directories {
+    position: relative;
+    overflow-y: auto;
+}
+
+.directories:empty::before {
+    content: 'No directories chosen. Add folders';
+    position: absolute;
+    font-style: italic;
+    max-width: 50%;
+    top: 3rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:rgba(255, 255, 255, 0.7)
+}
+
+.directory.active {
+    max-height: 26rem;
+}
+
+.directory-hierarchy a {
+    line-height: 6rem;
+    color: #aaa;
+}
+
+.directory-hierarchy a:last-child {
+    color: white;
+}
+
+.directory-hierarchy a::after {
+    display: inline-block;
+    margin: 0 0.5rem;
+    content: '/';
+}
+
+.directory-hierarchy a:first-child::before {
+    display: inline-block;
+    margin: 0 0 0 1rem;
+    content: ' ';
+}
+
+.directory-hierarchy a:last-child::after {
+    content: '';
+}
+
+ul {
+    margin: 0;
+    padding: 0 1rem;
+    list-style: none;
+}
+
+.directory ul {
+    max-height: 20rem;
+    margin: 0;
+    padding: 1rem;
+    border-radius: 0 0px 8px;
+    background: #676767;
+    line-height: 2rem;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.directory li[data-kind=directory]:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.directory li[data-kind=directory] a {
+    width: calc(100% - 1rem);
+}
+
+.directory li[data-kind=directory]::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: 'd';
+    color: orangered;
+}
+
+.min-max {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: #999999;
+    border: none;
+    margin-right: 1rem;
+    position: relative;
+    transition: transform 0.25s;
+}
+
+.active .min-max {
+    transform: rotate(180deg);
+}
+
+.min-max::before {
+    position: absolute;
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    top: 0.875rem;
+    left: 1rem;
+    transform: rotate(-45deg);
+    border-bottom: 4px solid white;
+    border-left: 4px solid white;
+}
+
+main {
+    height: calc(100% - 2rem - 2px);
+    overflow: hidden;
+}
+
+.wrapper {
+    width: calc(300vw - 12rem);
+    height: 100%;
+    transition: transform 0.25s;
+}
+
+input:nth-of-type(1):checked ~ main .wrapper {
+    transform: translate(0, 0);
+}
+
+input:nth-of-type(2):checked ~ main .wrapper {
+    transform: translate(calc(-100vw + 4rem), 0);
+}
+
+input:nth-of-type(3):checked ~ main .wrapper {
+    transform: translate(calc(-200vw + 8rem), 0);
+}
+
+.view {
+    opacity: 0;
+    visibility: hidden;
+    height: 100%;
+    width: calc(100vw - 4rem);
+    transition: opacity 0.25s, visibility 0s 0.25s;
+    padding: 1rem 0;
+}
+
+input:nth-of-type(1):checked ~ main .view:nth-of-type(1),
+input:nth-of-type(2):checked ~ main .view:nth-of-type(2),
+input:nth-of-type(3):checked ~ main .view:nth-of-type(3) {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.25s, visibility 0s;
+}
+
+li[data-kind="file"] > * {
+    display: inline-block;
+}
+
+li[data-kind="file"] span:nth-of-type(1) {
+    width: calc(100% - 7.5rem);
+}
+
+li[data-kind="file"] span:nth-of-type(2) {
+    width: 6rem;
+    text-align: right;
+}
+
+li[data-kind="file"] a {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 1rem;
+}
+
+a.stream {
+    background: white;
+    border-radius: 50%;
+    position: relative;
+    display: none;
+}
+
+a.stream::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 0.375rem;
+    left: 0.5725rem;
+    border: 0.375rem solid transparent;
+    border-left: 0.5rem solid #676767;
+}
+
+a.download {
+    border-radius: 50%;
+    background: white;
+    position: relative;
+}
+
+a.download::before, a.download::after {
+    content: '';
+    position: absolute;
+}
+
+a.download::before {
+    width: 12px;
+    height: 16px;
+    background: radial-gradient(ellipse at 50% 6px, #676767, #676767 2px, transparent 2px),
+        radial-gradient(ellipse at 50% 4px, #676767, #676767 2px, transparent 2px),
+        radial-gradient(ellipse at 50% 2px, #676767, #676767 2px, transparent 2px),
+        linear-gradient(0deg,#676767, #676767 2px, transparent 2px);
+    top: 50%;
+    left: 50%;
+    margin: -8px -6px;
+}
+
+a.download::after {
+    width: 0;
+    height: 0;
+    border: 0.375rem solid transparent;
+    border-top: 0.5rem solid #676767;
+    top: 10px;
+    left: 0.375rem;
+}
+
+.peers {
+    width: 20rem;
+    height: 100%;
+    border: 1px solid white;
+    overflow: auto;
+    list-style: none;
+    line-height: 2.5rem;
+    padding: 0;
+    position: relative;
+}
+
+.peer-directories {
+    width: calc(100% - 22rem);
+    margin-left: auto;
+    height: calc(100% - 2rem);
+    overflow-y: auto;
+}
+
+.peer-directories[data-peername]::before {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    content: attr(data-peername) "'s files";
+    margin-bottom: 1rem;
+}
+
+.peers::before {
+    position: sticky;
+    content: 'Users';
+    font-weight: 700;
+    height: 3rem;
+    width: 100%;
+    line-height: 3rem;
+    padding: 0 0.5rem;
+    background: white;
+    color: black;
+    display: block;
+    top: 0;
+}
+
+.peers::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+    background: radial-gradient(#282A2D 0%, #282A2D calc(4.5rem - 1px), transparent 4.5rem),
+        conic-gradient(transparent 0deg, transparent 15deg, white 15deg, white 75deg, transparent 75deg,
+            transparent 105deg, white 105deg, white 165deg, transparent 165deg, transparent 205deg, white 205deg, white 255deg, transparent 255deg,
+            transparent 285deg, white 285deg, white 345deg, transparent 345deg);
+    content: '';
+    margin: -5rem -5rem;
+    animation: rotate 2s linear infinite;
+    animation-fill-mode: forwards;
+    transition: opacity 0.3s, visibility 0s 0.3s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.peers:empty::after {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.2s, visibility 0s;
+}
+
+.peers li {
+    padding: 0 1rem;
+    position: relative;
+    transition: background 0.2s;
+}
+
+.peers li a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.peers li:nth-child(odd) {
+    background: rgba(255,255,255,0.1);
+}
+
+dialog {
+    background: white;
+    border-radius: 8px;
+    width: 640px;
+    padding: 0 1rem;
+}
+
+dialog h1 {
+    margin: 0;
+    padding: 0 1rem;
+    border-bottom: 1px solid #282A2D;
+    font-size: 2rem;
+    line-height: 4rem;
+}
+
+dialog input {
+    display: block;
+    width: 50%;
+    padding: 0 0.5rem;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    outline: none;
+    margin: 1rem 0;
+    transition: border-bottom 0.25s, box-shadow 0.25s;
+}
+
+dialog input:focus {
+    border-bottom: 1px solid #09f;
+    box-shadow: 0 3px 2px -2px rgba(0, 144, 255, 0.4);
+}
+
+dialog input:invalid:focus {
+    border-bottom: 1px solid #fe0001;
+    box-shadow: 0 3px 2px -2px rgba(255, 0, 1, 0.4);
+}
+
+dialog ul:not(:empty) ~ .directory-chooser {
+    display: none;
+}
+
+dialog ul:not(:empty)::before {
+    display: inline-block;
+    margin-right: 0.5rem;
+    content: 'Shared folder: ';
+}
+
+.directory-setup {
+    padding: 0;
+}
+
+.directory-setup li {
+    display: inline-block;
+    background: #282A2D;
+    color: white;
+    height: 2rem;
+    line-height: 1.875rem;
+    border-radius: 1rem;
+    padding: 0 1rem;
+}
+
+.dialog__body {
+    padding: 1rem 1rem 3rem;
+}
+
+.dialog__actions {
+    border-top: 1px solid #282A2D;
+    padding: 1rem 0;
+    text-align: right;
+}
+
+.dialog__actions button {
+    border: none;
+    font-size: 1rem;
+    height: 2.5rem;
+    line-height: 2.25rem;
+    border-radius: 4px;
+    padding: 0 1rem;
+}
+
+.success {
+    background: linear-gradient(rgba(0, 144, 255, 0.6), #09f);
+    box-shadow: inset 0 0 1px 1px #09f;
+    color: white;
+}
+
+dialog::backdrop {
+    background: rgba(0,0,0,0.7);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.peers li.connecting::before {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: radial-gradient(#282A2D 0%, #282A2D calc(0.625rem - 1px), transparent 0.625rem),
+        conic-gradient(transparent 0deg, transparent 15deg, white 15deg, white 75deg, transparent 75deg,
+            transparent 105deg, white 105deg, white 165deg, transparent 165deg, transparent 205deg, white 205deg, white 255deg, transparent 255deg,
+            transparent 285deg, white 285deg, white 345deg, transparent 345deg);
+    content: '';
+    margin: -0.75rem 0;
+    animation: rotate 2s linear infinite;
+    animation-fill-mode: forwards;
+}
+
+.peers li.connecting:nth-child(odd)::before {
+    background: radial-gradient(rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.1) calc(0.625rem - 1px), transparent 0.625rem),
+        radial-gradient(#282A2D 0%, #282A2D calc(0.625rem - 1px), transparent 0.625rem),
+        conic-gradient(transparent 0deg, transparent 15deg, white 15deg, white 75deg, transparent 75deg,
+        transparent 105deg, white 105deg, white 165deg, transparent 165deg, transparent 205deg, white 205deg, white 255deg, transparent 255deg,
+        transparent 285deg, white 285deg, white 345deg, transparent 345deg);
+}
+
+.peers li.connected {
+    background: rgba(0, 144, 255, 0.3);
+}
+
+.transfers {
+    padding: 0;
+}
+.transfers li {
+    width: 100%;
+    height: 5rem;
+    line-height: 2rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0 3rem 0 1rem;
+    position: relative;
+}
+
+.transfers li[data-type="download"]::before,
+.transfers li[data-type="upload"]::before {
+    content: '';
+    position: absolute;
+    top: 2.25rem;
+    right: 1rem;
+    transform: translate(-50%, -50%);
+    width: 0.5rem;
+    height: 1.25rem;
+    background: #6fff01;
+    border-radius: 0.125rem;
+}
+
+.transfers li[data-type="download"]::after {
+    content: '';
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background: conic-gradient(#6fff01, #6fff01 30deg, transparent 34deg, transparent 326deg, #6fff01 330deg);
+    right: 0.5rem;
+    top: 2.25rem;
+}
+
+.transfers li[data-type="upload"]::after {
+    content: '';
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background: conic-gradient(transparent, transparent 146deg, yellow 150deg, yellow 210deg, transparent 214deg);
+    right: 0.5em;
+    bottom: 2.25rem;
+}
+
+.transfers li[data-type="upload"]::before {
+    top: 2.75rem;
+    background: yellow;
+}
+
+.transfers li span:nth-of-type(1), .transfers li progress {
+    display: block;
+    width: 100%;
+}
+
+.transfers li span:nth-of-type(2),
+.transfers li span:nth-of-type(3),
+.transfers li span:nth-of-type(4)  {
+    position: absolute;
+    font-size: 0.8rem;
+    line-height: 1rem;
+}
+
+.transfers li span:nth-of-type(2),
+.transfers li span:nth-of-type(3) {
+    bottom: 1rem;
+}
+
+.transfers li span:nth-of-type(4) {
+    top: 1rem;
+}
+
+.transfers li span[data-totalsize]::after {
+    content: ' of ' attr(data-totalsize);
+    left: 1rem;
+}
+
+.transfers li span:nth-of-type(3),
+.transfers li span:nth-of-type(4) {
+    right: 3rem;
+}
+
+.transfers li:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
