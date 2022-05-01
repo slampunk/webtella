@@ -4,7 +4,7 @@ export default class PeerList {
     constructor({ emitter, logger }) {
         this.emitter = emitter;
         this.logger = logger;
-        this.userListEl = document.querySelector('ul.peers');
+        this.userListEl = document.querySelector('ul.peers .list');
         this.lastRequestId = '';
 
         this.attachEvents();
@@ -17,6 +17,11 @@ export default class PeerList {
         this.emitter.on('peerconnection', this.triggerConnection);
         this.emitter.on('peer.connected', this.handleConnectedPeer);
         this.emitter.on('peer.directories.request, peer.directory.get.request, peer.file.get.request', this.logRequestId);
+        this.emitter.on('user.details', this.displayRoomName);
+        this.emitter.on('room.leave', this.leaveCurrentRoom);
+        this.emitter.on('room.join.complete', this.handleJoinRoomComplete)
+        document.getElementById('roomChooser').addEventListener('click', this.showRoomChoiceDialog, false);
+        document.querySelector('#roomDialog form').addEventListener('submit', this.handleRoomChange, false);
     }
 
     handleUserList = data => {
@@ -110,5 +115,29 @@ export default class PeerList {
     logRequestId = (data, requestId) => {
         const newRequestId = requestId || data.requestId;
         this.lastRequestId = newRequestId;
+    }
+
+    displayRoomName = ({ room }) => {
+        const roomNameElement = document.querySelector('ul.peers h1');
+        roomNameElement.textContent = room;
+        roomNameElement.title = room;
+    }
+
+    showRoomChoiceDialog = () => {
+        document.getElementById('roomDialog').showModal();
+    }
+
+    handleRoomChange = e => {
+        const newRoom = e.currentTarget.querySelector('input[name=room]').value;
+        this.emitter.emit('room.new', newRoom);
+    }
+
+    leaveCurrentRoom = () => {
+        document.querySelector('ul.peers h1').textContent = '';
+        document.querySelector('ul.peers .list').textContent = '';
+    }
+
+    handleJoinRoomComplete = ({ room }) => {
+        document.querySelector('ul.peers h1').textContent = room;
     }
 }

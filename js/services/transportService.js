@@ -13,14 +13,16 @@ export default class TransportService {
     }
 
     attachEvents() {
-        this.emitter.on('username', this.handleUsernameChange);
+        this.emitter.on('user.details', this.handleUserDetailsChange);
         this.emitter.on('peer.connection', this.handlePeerConnectionRequest);
+        this.emitter.on('room.leave', this.leaveRoom);
+        this.emitter.on('room.join', this.joinRoom);
     }
 
-    handleUsernameChange = username => {
+    handleUserDetailsChange = payload => {
         const data = {
-            event: 'name',
-            payload: username
+            event: 'details',
+            payload
         }
 
         this.defaultTransport.sendMessage(data);
@@ -29,4 +31,13 @@ export default class TransportService {
     handlePeerConnectionRequest = data => {
         this.defaultTransport.sendMessage(data);
     }
+
+    leaveRoom = async () => await new Promise(resolve => {
+        this.emitter.once('room.leave.complete', () => {
+            resolve();
+        });
+        this.defaultTransport.sendMessage({ action: 'leave-room' });
+    });
+
+    joinRoom = room => this.defaultTransport.sendMessage({ action: 'join-room', payload: { room } });
 }
