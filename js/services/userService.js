@@ -1,4 +1,4 @@
-const roomMatch = window.location.pathname.match(/room\/([a-zA-Z0-9]+)/);
+const roomMatch = window.location.pathname.match(/room\/([a-zA-Z0-9\-]+)/);
 const room = roomMatch ? roomMatch[1] : '';
 
 export default class UserService {
