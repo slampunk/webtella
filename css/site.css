@@ -19,6 +19,7 @@ body {
 header {
     border-bottom: 1px #f4f4f4 solid;
     padding: 0 1rem;
+    position: relative;
 }
 
 header label {
@@ -74,7 +75,8 @@ a, button, label {
     cursor: pointer;
 }
 
-.directory-chooser {
+.directory-chooser,
+.room-chooser {
     border: none;
     font-size: 1rem;
     background: #64B359;
@@ -84,22 +86,32 @@ a, button, label {
     line-height: 2.5rem;
     border-radius: 1.25rem;
     font-size: 1rem;
-    position: relative;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.25s, visibility 0s;
-    align-self: flex-end;
-    margin: 0 0 0.5rem auto;
+    transition: opacity 0.125s 0.125s, visibility 0s 0.125s;
+    margin: 1rem 0 0.5rem auto;
+    position: relative;
 }
 
-body > input:nth-of-type(1):not(:checked) ~ header button {
+header .directory-chooser,
+header .room-chooser {
+    position: absolute;
+    margin: 0;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+body > input:nth-of-type(1):not(:checked) ~ header .directory-chooser,
+body > input:nth-of-type(2):not(:checked) ~ header .room-chooser {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s, visibility 0s 0.25s;
     align-self: flex-end;
 }
 
-.directory-chooser::before {
+.directory-chooser::before,
+.room-chooser::before {
     position: absolute;
     top: 0.25rem;
     left: 0.25rem;
@@ -110,7 +122,8 @@ body > input:nth-of-type(1):not(:checked) ~ header button {
     content: '';
 }
 
-.directory-chooser::after {
+.directory-chooser::after,
+.room-chooser::after {
     position: absolute;
     top: 0.625rem;
     left: 0.625rem;
@@ -376,21 +389,44 @@ a.download::after {
     margin-bottom: 1rem;
 }
 
-.peers::before {
+.peers h1 {
     position: sticky;
-    content: 'Users';
     font-weight: 700;
     height: 3rem;
     width: 100%;
+    font-size: 1.25rem;
     line-height: 3rem;
     padding: 0 0.5rem;
     background: white;
     color: black;
     display: block;
     top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.peers::after {
+.peers h1:empty::before {
+    content: 'Lobby';
+}
+
+.peers h1:not(:empty)::before {
+    content: 'Room: ';
+}
+
+.peers .list:empty::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    content: 'Awaiting users';
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s, visibility 0s 0.3s;
+    font-style: italic;
+    font-size: 0.875rem;
+    max-width: 8rem;
+}
+
+.peers .list::before {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -410,7 +446,8 @@ a.download::after {
     visibility: hidden;
 }
 
-.peers:empty::after {
+.peers .list:empty::before,
+.peers .list:empty::after {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.2s, visibility 0s;
@@ -457,7 +494,7 @@ dialog input {
     font-size: 1rem;
     line-height: 1.5rem;
     outline: none;
-    margin: 1rem 0;
+    margin: 1rem 0 0.25rem;
     transition: border-bottom 0.25s, box-shadow 0.25s;
 }
 
@@ -469,6 +506,20 @@ dialog input:focus {
 dialog input:invalid:focus {
     border-bottom: 1px solid #fe0001;
     box-shadow: 0 3px 2px -2px rgba(255, 0, 1, 0.4);
+}
+
+.invalid-input {
+    font-size: 0.7rem;
+    color: #fe0001;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.3s, opacity 0.3s;
+}
+
+input:invalid + .invalid-input {
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0s, opacity 0.3s;
 }
 
 dialog ul:not(:empty) ~ .directory-chooser {

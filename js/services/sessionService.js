@@ -1,10 +1,13 @@
+import { uuid } from "../lib/utils.js";
+
 export default class SessionService {
     constructor({ emitter }) {
         this.emitter = emitter;
         this.sessionProperties = ['username'];
 
         this.attachEvents();
-        this.notifyUsername();
+        this.init();
+        
     }
 
     attachEvents() {
@@ -12,19 +15,28 @@ export default class SessionService {
         this.emitter.on('username.get', this.getUsername);
     }
 
-    saveUsername = username => {
-        localStorage.setItem('username', username);
-        this.notifyUsername(username);
+    init() {
+        if (!localStorage.getItem('token')) {
+            localStorage.setItem('token', uuid());
+        }
+
+        this.notifyUserDetails();
     }
 
-    notifyUsername(eventedUsername) {
+    saveUsername = username => {
+        localStorage.setItem('username', username);
+        this.notifyUserDetails(username);
+    }
+
+    notifyUserDetails(eventedUsername) {
         const username = eventedUsername || localStorage.getItem('username');
 
         if (!username) {
             return this.emitter.emit('setup');
         }
 
-        this.emitter.emit('username', username);
+        const token = localStorage.getItem('token');
+        this.emitter.emit('session.user.details', { username, token });
     }
 
     getUsername = () => {

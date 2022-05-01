@@ -8,7 +8,6 @@ export default class DirectoryList {
         this.remoteDirectoryListElement = document.getElementById('remote-directories');
         this.lastRequestId = '';
         this.downloads = {};
-        console.log(this.downloads);
         this.addListeners();
     }
 

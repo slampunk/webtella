@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-ZA">
 <head>
-    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="/css/site.css" />
     <title>Webtella</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -22,6 +22,20 @@
             </div>
         </form>
     </dialog>
+    <dialog id="roomDialog">
+        <form method="dialog">
+            <h1>Join room?</h1>
+            <div class="dialog__body">
+                <p>Enter the room name you would like to join in the textbox below</p>
+                <input name="room" placeholder="Room" autocomplete="off" required pattern="[a-zA-Z0-9\s\-_]+" />
+                <span class="invalid-input">Only letters, digits, spaces, dashes and underscores are allowed</span>
+            </div>
+            <div class="dialog__actions">
+                <button type="reset">Cancel</button>
+                <button type="submit" class="success">Join room</button>
+            </div>
+        </form>
+    </dialog>
     <input type="radio" name="view" class="hidden" id="local" value="local" checked />
     <input type="radio" name="view" class="hidden" id="network" value="network" />
     <input type="radio" name="view" class="hidden" id="transfers" value="transfers" />
@@ -30,12 +44,15 @@
         <label for="network">Network</label>
         <label for="transfers">Transfers</label>
         <button id="directoryChooser" class="directory-chooser">Add folder</button>
+        <button id="roomChooser" class="room-chooser">Create/Join room</button>
     </header>
     <main>
         <div class="wrapper flex">
             <div class="view directories" id="local-view"></div>
             <div class="view flex space-between align-top network" id="network-view">
-                <ul class="peers"></ul>
+                <ul class="peers"><h1>Something</h1>
+                    <div class="list"></div>
+                </ul>
                 <div class="peer-directories" id="remote-directories"></div>
             </div>
             <div class="view" id="transfers-view">
@@ -44,6 +61,6 @@
         </div>
     </main>
     <!-- add rooms -->
-    <script src="js/app.js" type="module"></script>
+    <script src="/js/app.js" type="module"></script>
 </body>
 </html>
