@@ -34,7 +34,6 @@ export default class DirectoryService {
         this.emitter.on('file.chunk.request', this.sendNextFileChunk);
         this.emitter.on('file.incoming.chunk', this.handleIncomingChunk);
         this.emitter.on('file.incoming.complete', this.handleIncomingCompleted);
-        
     }
 
     async chooseDirectory() {

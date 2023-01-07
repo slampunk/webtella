@@ -12,6 +12,7 @@ export default class DirectoryList {
     }
 
     addListeners() {
+        this.emitter.on('directory.clear', this.clearDirectoryContent);
         this.emitter.on('directory.content', this.listDirectoryContentIn(this.directoryListElement));
         this.emitter.on('peer.directory.list', this.listPeerDirectories);
         this.emitter.on('peer.directory.content', this.handlePeerDirectoryResponse);
@@ -19,6 +20,8 @@ export default class DirectoryList {
         this.emitter.on('peer.directories.request, peer.directory.get.request, peer.file.get.request', this.logRequestId);
         this.emitter.on('file.transfer.progress.details', this.updateTransferProgress);
     }
+
+    clearDirectoryContent = () => this.directoryListElement.textContent = '';
 
     listDirectoryContentIn = (parent, peerId = '') => directoryContent => {
         const { hierarchy, content } = directoryContent;
@@ -40,6 +43,7 @@ export default class DirectoryList {
         minMaxButton.className = 'min-max';
 
         const contentList = document.createElement('ul');
+        console.log(content);
         content.forEach(this.appendContentItemTo(contentList, peerId));
 
         el.appendChild(hierarchyElement);
@@ -131,9 +135,6 @@ export default class DirectoryList {
         downloadElement.title = `download ${name}`;
         if (this.downloads[name]) {
             this.attachDownloadData(downloadElement, this.downloads[name]);
-        }
-        else {
-            console.log(name);
         }
 
         if (peerId) {
